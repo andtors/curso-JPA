@@ -1,0 +1,52 @@
+package aplicacao;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import dominio.Pessoa;
+
+public class Programa {
+
+	public static void main(String[] args) {
+	
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("exemplo-jpa");
+		EntityManager em = emf.createEntityManager();
+		//Criamos os entities para fazer a conexão com o banco de dados, o createEntityManagerFacotry tem que corresponder com o nome que demos lá no persistence.xml na linha 7
+		
+		/*
+		Pessoa  p1 = new Pessoa(null, "Carlos da Silva", "carlos@gmail.com");
+		Pessoa  p2 = new Pessoa(null, "Joaquim Torres", "joaquim@gmail.com");
+		Pessoa  p3 = new Pessoa(null, "Ana Maria", "ana@gmail.com");
+		em.getTransaction().begin();
+		
+		em.persist(p1);
+		em.persist(p2);
+		em.persist(p3);
+		em.getTransaction().commit();
+		Para que os objetos sejem salvos usamos a função em que instanciamos anteriormente, passando como argumento os objetos que queremos salvar
+		colocamos entre transaction().begin() e transaction().commit() todos os objetos que queremos salvar
+		  */
+		
+		
+		/*
+		Pessoa p = em.find(Pessoa.class, 2);
+		System.out.println(p);
+		Caso queiramos achar uma pessoa num banco de dados, criamos uma instancia da classe passando uma variavel
+		em seguida passamos o argumento da classe a ser pesquisada e o id em que ela se encontra
+		e assim podemos imprimir na tela com a variavel em que salvamos a instanciação
+		*/
+		
+		em.getTransaction().begin();
+		Pessoa p = em.find(Pessoa.class, 2);
+		em.remove(p);
+		em.getTransaction().commit();
+		//Para remover um objeto da tabela temos que primeiro "monitorar" ela usando o find e em seguida como é uma transação
+		//usar o em.getTransaction().begin e .commit()
+		
+		
+		System.out.println("Pronto");
+		em.close();
+		emf.close();
+	}
+}
